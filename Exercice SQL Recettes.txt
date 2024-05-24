@@ -1,0 +1,177 @@
+-----------------------------------------------------
+SELECT *
+FROM table1
+INNER JOIN table2 ON table1.id = table2.fk_id
+-----------------------------------------------------
+
+1  - Afficher toutes les recettes disponibles (nom de la recette, catégorie et temps de préparation) triées de façon décroissante sur la durée de réalisation
+
+SELECT r.recipe_name, c.category_name, r.preparation_time
+FROM recipe r
+INNER JOIN category c ON r.id_category = c.id_category
+ORDER BY r.preparation_time DESC
+;
+
+-----------------------------------------------------
+
+2  - En modifiant la requête précédente, faites apparaître le nombre d’ingrédients nécessaire par recette.
+
+SELECT r.recipe_name, c.category_name, r.preparation_time, COUNT(*) AS nb_ingredient
+FROM recipe r
+INNER JOIN category c ON r.id_category = c.id_category
+INNER JOIN recipe_ingredient ri ON ri.id_recipe = r.id_recipe
+GROUP BY r.recipe_name, c.category_name, r.preparation_time
+ORDER BY r.preparation_time DESC
+;
+
+-----------------------------------------------------
+3  - Afficher les recettes qui nécessitent au moins 30 min de préparation
+
+SELECT r.recipe_name, r.preparation_time
+FROM recipe r
+WHERE r.preparation_time >= 30
+;
+
+-----------------------------------------------------
+4  - Afficher les recettes dont le nom contient le mot « Salade » (peu importe où est situé le mot en question)
+
+SELECT r.recipe_name
+FROM recipe r
+WHERE r.recipe_name LIKE '%omelette%'
+;
+
+-----------------------------------------------------
+
+5  - Insérer une nouvelle recette : « Pâtes à la carbonara » dont la durée de réalisation est de 20 min avec les instructions de votre choix. Pensez à alimenter votre base de données en conséquence afin de pouvoir lister les détails de cette recettes (ingrédients)
+
+INSERT INTO recipe VALUES (11,'pâtes à la carbonara',20,'Recette des pâtes à la carbonara: faire cuire un oignon et les lardons dans une poele, puis ajouter la crème fraiche. Servir avec des pâtes.',2);
+INSERT INTO recipe_ingredient VALUES (1,24,11);
+INSERT INTO recipe_ingredient VALUES (1,25,11);
+INSERT INTO recipe_ingredient VALUES (400,9,11);
+INSERT INTO recipe_ingredient VALUES (250,18,11);
+INSERT INTO recipe_ingredient VALUES (400,17,11);
+INSERT INTO recipe_ingredient VALUES (1,12,11);
+INSERT INTO recipe_ingredient VALUES (100,22,11);
+INSERT INTO recipe_ingredient VALUES (1,24,11);
+INSERT INTO recipe_ingredient VALUES (1,25,11);
+INSERT INTO recipe_ingredient VALUES (1,26,11);
+
+SELECT r.recipe_name, i.ingredient_name, ri.quantity, i.unity
+FROM recipe r
+INNER JOIN recipe_ingredient ri ON ri.id_recipe = r.id_recipe
+INNER JOIN ingredient i ON i.id_ingredient = ri.id_ingredient
+WHERE r.id_recipe = 11
+;
+
+-----------------------------------------------------
+6  - Modifier le nom de la recette ayant comme identifiant id_recette = 3 (nom de la recette à votre convenance)
+
+UPDATE recipe r
+SET r.recipe_name = 'Milkshake à la glace à la vanille'
+WHERE r.id_recipe = 3
+;
+
+-----------------------------------------------------
+7  - Supprimer la recette n°2 de la base de données
+
+DELETE FROM recipe_ingredient ri
+WHERE ri.id_recipe = 6
+;
+
+DELETE FROM recipe r
+WHERE r.id_recipe = 6
+;
+
+-----------------------------------------------------
+8  - Afficher le prix total de la recette n°5
+
+SELECT ROUND(SUM(ri.quantity * i.price),2)
+FROM recipe_ingredient ri
+INNER JOIN ingredient i ON i.id_ingredient = ri.id_ingredient
+WHERE ri.id_recipe = 5
+;
+
+-----------------------------------------------------
+9  - Afficher le détail de la recette n°5 (liste des ingrédients, quantités et prix)
+
+SELECT i.ingredient_name, ri.quantity, i.price, ROUND((ri.quantity * i.price),2) AS cost
+FROM recipe r
+INNER JOIN recipe_ingredient ri ON ri.id_recipe = r.id_recipe
+INNER JOIN ingredient i ON i.id_ingredient = ri.id_ingredient
+WHERE r.id_recipe = 5
+;
+
+-----------------------------------------------------
+10 - Ajouter un ingrédient en base de données : Poivre, unité : cuillère à café, prix : 2.5 €
+
+INSERT INTO ingredient VALUES (default,'poivre','cuillère à café',2.5);
+
+-----------------------------------------------------
+11 - Modifier le prix de l’ingrédient n°12 (prix à votre convenance)
+
+UPDATE ingredient i
+SET i.price = 1.15
+WHERE i.id_ingredient = 12
+;
+
+-----------------------------------------------------
+12 - Afficher le nombre de recettes par catégories : X entrées, Y plats, Z desserts
+
+SELECT DISTINCT c.category_name, COUNT(*) AS nbre_plat
+FROM  recipe r
+INNER JOIN category c ON r.id_category = c.id_category
+GROUP BY c.category_name
+;
+
+-----------------------------------------------------
+13 - Afficher les recettes qui contiennent l’ingrédient "crème fraiche"
+
+SELECT distinct r.recipe_name
+FROM recipe r
+INNER JOIN recipe_ingredient ri ON ri.id_recipe = r.id_recipe
+WHERE ri.id_ingredient = 17
+;
+
+-----------------------------------------------------
+14 - Mettez à jour toutes les recettes en diminuant leur temps de préparation de 5 minutes
+
+UPDATE recipe r
+SET r.preparation_time = r.preparation_time - 5
+;
+
+-----------------------------------------------------
+15 - Afficher les recettes qui ne nécessitent pas d’ingrédients coûtant plus de 2€ par unité de mesure
+
+A FAIRE !!!
+
+-----------------------------------------------------
+16 - Afficher la / les recette(s) les plus rapides à préparer
+
+SELECT distinct r.recipe_name,preparation_time, min(r.preparation_time)
+FROM recipe r
+GROUP BY r.recipe_name, preparation_time
+HAVING r.preparation_time <= ALL  
+(
+  SELECT r.preparation_time FROM recipe r
+)
+;
+
+-----------------------------------------------------
+17 - Trouver les recettes qui ne nécessitent aucun ingrédient (par exemple la recette de la tasse d’eau chaude qui consiste à verser de l’eau chaude dans une tasse)
+
+SELECT recipe_name r 
+FROM recipe r
+LEFT JOIN recipe_ingredient ri ON ri.id_recipe = r.id_recipe
+WHERE ri.id_recipe IS NULL
+;
+
+-----------------------------------------------------
+18 - Trouver les ingrédients qui sont utilisés dans au moins 3 recettes
+
+-----------------------------------------------------
+19 - Ajouter un nouvel ingrédient à une recette spécifique
+
+-----------------------------------------------------
+20 - Bonus : Trouver la recette la plus coûteuse de la base de données (il peut y avoir des ex aequo, il est donc exclu d’utiliser la clause LIMIT)
+
+-----------------------------------------------------
