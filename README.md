@@ -6,8 +6,8 @@ Vous devrez ensuite définir les requêtes suivantes :<br>
 1 - Afficher toutes les recettes disponibles (nom de la recette, catégorie et temps de préparation) triées de façon décroissante sur la durée de réalisation.<br>
 2 - En modifiant la requête précédente, faites apparaître le nombre d’ingrédients nécessaire par recette.<br>
 3 - Afficher les recettes qui nécessitent au moins 30 min de préparation.<br>
-4 - Afficher les recettes dont le nom contient le mot « Salade » (peu importe où est situé le mot en question).<br>
-5 - Insérer une nouvelle recette : « Pâtes à la carbonara » dont la durée de réalisation est de 20 min avec les instructions de votre choix. Pensez à alimenter votre base de données en conséquence afin de pouvoir lister les détails de cette recettes (ingrédients).<br>
+4 - Afficher les recettes dont le nom contient le mot "Salade" (peu importe où est situé le mot en question).<br>
+5 - Insérer une nouvelle recette : "Pâtes à la carbonara" dont la durée de réalisation est de 20 min avec les instructions de votre choix. Pensez à alimenter votre base de données en conséquence afin de pouvoir lister les détails de cette recettes (ingrédients).<br>
 6 - Modifier le nom de la recette ayant comme identifiant id_recette = 3 (nom de la recette à votre convenance).<br>
 7 - Supprimer la recette n°2 de la base de données.<br>
 8 - Afficher le prix total de la recette n°5.<br>
