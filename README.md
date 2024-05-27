@@ -22,4 +22,4 @@ Vous devrez ensuite définir les requêtes suivantes :<br>
 17 - Trouver les recettes qui ne nécessitent aucun ingrédient (par exemple la recette de la tasse d’eau chaude qui consiste à verser de l’eau chaude dans une tasse).<br>
 18 - Trouver les ingrédients qui sont utilisés dans au moins 3 recettes.<br>
 19 - Ajouter un nouvel ingrédient à une recette spécifique.<br>
-20 - Bonus : Trouver la recette la plus coûteuse de la base de données (il peut y avoir des ex aequo, il est donc exclu d’utiliser la clause LIMIT)<br>
+20 - Bonus : Trouver la recette la plus coûteuse de la base de données (il peut y avoir des ex aequo, il est donc exclu d’utiliser la clause LIMIT).<br>
