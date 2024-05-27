@@ -33,7 +33,7 @@ WHERE r.preparation_time >= 30
 ;
 
 -----------------------------------------------------
-4  - Afficher les recettes dont le nom contient le mot « Salade » (peu importe où est situé le mot en question)
+4  - Afficher les recettes dont le nom contient le mot "omelette" (peu importe où est situé le mot en question)
 
 SELECT r.recipe_name
 FROM recipe r
@@ -42,7 +42,7 @@ WHERE r.recipe_name LIKE '%omelette%'
 
 -----------------------------------------------------
 
-5  - Insérer une nouvelle recette : « Pâtes à la carbonara » dont la durée de réalisation est de 20 min avec les instructions de votre choix. Pensez à alimenter votre base de données en conséquence afin de pouvoir lister les détails de cette recettes (ingrédients)
+5  - Insérer une nouvelle recette : "Pâtes à la carbonara" dont la durée de réalisation est de 20 min avec les instructions de votre choix. Pensez à alimenter votre base de données en conséquence afin de pouvoir lister les détails de cette recettes (ingrédients)
 
 INSERT INTO recipe VALUES (11,'pâtes à la carbonara',20,'Recette des pâtes à la carbonara: faire cuire un oignon et les lardons dans une poele, puis ajouter la crème fraiche. Servir avec des pâtes.',2);
 INSERT INTO recipe_ingredient VALUES (1,24,11);
@@ -142,7 +142,19 @@ SET r.preparation_time = r.preparation_time - 5
 -----------------------------------------------------
 15 - Afficher les recettes qui ne nécessitent pas d’ingrédients coûtant plus de 2€ par unité de mesure
 
-A FAIRE !!!
+SELECT DISTINCT r.recipe_name, i.price / ri.quantity AS prix
+FROM recipe r
+INNER JOIN recipe_ingredient ri ON ri.id_recipe = r.id_recipe
+INNER JOIN ingredient i ON i.id_ingredient = ri.id_ingredient
+#GROUP BY r.recipe_name
+HAVING prix <= ALL
+(
+	SELECT i1.price / ri1.quantity
+	FROM recipe r1
+	INNER JOIN recipe_ingredient ri1 ON ri1.id_recipe = r1.id_recipe
+	INNER JOIN ingredient i1 ON i1.id_ingredient = ri1.id_ingredient
+)
+;
 
 -----------------------------------------------------
 16 - Afficher la / les recette(s) les plus rapides à préparer
@@ -168,10 +180,40 @@ WHERE ri.id_recipe IS NULL
 -----------------------------------------------------
 18 - Trouver les ingrédients qui sont utilisés dans au moins 3 recettes
 
+SELECT DISTINCT i.ingredient_name, COUNT(*) nbre_recette
+FROM recipe_ingredient ri
+INNER JOIN ingredient i ON ri.id_ingredient = i.id_ingredient
+GROUP BY i.ingredient_name, ri.id_ingredient
+HAVING nbre_recette >= 3
+;
+
 -----------------------------------------------------
 19 - Ajouter un nouvel ingrédient à une recette spécifique
 
+INSERT INTO ingredient VALUES (default,'ciboulette','gramme',1.10);
+
+INSERT INTO recipe_ingredient 
+VALUES (100,
+(SELECT id_ingredient FROM ingredient WHERE ingredient_name = 'ciboulette'),
+(SELECT id_recipe FROM recipe WHERE recipe_name = 'omelette aux lardons'))
+;
+
 -----------------------------------------------------
 20 - Bonus : Trouver la recette la plus coûteuse de la base de données (il peut y avoir des ex aequo, il est donc exclu d’utiliser la clause LIMIT)
+
+SELECT distinct r.recipe_name, SUM(i.price*ri.quantity) AS prix
+FROM recipe r
+INNER JOIN recipe_ingredient ri ON ri.id_recipe = r.id_recipe
+INNER JOIN ingredient i ON i.id_ingredient = ri.id_ingredient
+GROUP BY r.recipe_name
+HAVING prix >= ALL 
+(
+	SELECT SUM(i.price*ri.quantity)
+	FROM recipe r
+	INNER JOIN recipe_ingredient ri ON ri.id_recipe = r.id_recipe
+	INNER JOIN ingredient i ON i.id_ingredient = ri.id_ingredient
+	GROUP BY r.recipe_name
+)
+;
 
 -----------------------------------------------------
