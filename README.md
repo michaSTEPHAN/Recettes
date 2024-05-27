@@ -1,9 +1,9 @@
-Vous avez la charge de modéliser une base de données permettant de mettre en place des recettes de cuisine. Une recette sera caractérisée par un nom, un temps de préparation (en minutes) et des instructions. Chaque recette contiendra des ingrédients avec une certaine quantité, une unité de mesure et on pourra définir le prix de chaque ingrédient. Chaque recette appartiendra à une catégorie unique : entrée, plat ou dessert.<br>
+Vous avez la charge de modéliser une base de données permettant de mettre en place des recettes de cuisine. Une recette sera caractérisée par un nom, un temps de préparation (en minutes) et des instructions. Chaque recette contiendra des ingrédients avec une certaine quantité, une unité de mesure et on pourra définir le prix de chaque ingrédient. Chaque recette appartiendra à une catégorie unique : entrée, plat ou dessert.
 Modéliser la base de données et définir des requêtes
 Réaliser le modèle conceptuel de données (MCD) d’une telle application. Vous déduirez logiquement le modèle logique de données (MLD) afin d’y faire apparaître les clés étrangères et les éventuelles tables associatives s’il devait y en avoir. Votre modélisation devra être vérifiée par un formateur avant de passer à la suite.
 Vous mettrez en place la base de données sur HeidiSQL et vous l’alimenterez en conséquence avec au moins 10 recettes.
-Vous devrez ensuite définir les requêtes suivantes :
-1 - Afficher toutes les recettes disponibles (nom de la recette, catégorie et temps de préparation) triées de façon décroissante sur la durée de réalisation
+Vous devrez ensuite définir les requêtes suivantes :<br>
+1 - Afficher toutes les recettes disponibles (nom de la recette, catégorie et temps de préparation) triées de façon décroissante sur la durée de réalisation.<br>
 2 - En modifiant la requête précédente, faites apparaître le nombre d’ingrédients nécessaire par recette.
 3 - Afficher les recettes qui nécessitent au moins 30 min de préparation
 4 - Afficher les recettes dont le nom contient le mot « Salade » (peu importe où est situé le mot en question)
